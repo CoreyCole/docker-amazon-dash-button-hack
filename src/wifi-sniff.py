@@ -9,7 +9,7 @@ import os.path
 import requests
 from scapy.all import sniff
 
-BUTTONS_FILE_NAME = './buttons.json'
+BUTTONS_FILE_NAME = 'buttons.json'
 
 buttons = {}
 
@@ -19,6 +19,7 @@ should connect volume with setting files, like
 
 def load_buttons():
     """ Load known buttons """
+    print('loading buttons')
     if not os.path.isfile(BUTTONS_FILE_NAME):
         print(NO_SETTINGS_FILE.format(BUTTONS_FILE_NAME))
         exit(1)
@@ -38,13 +39,13 @@ def arp_handler(pkt):
 def trigger(button):
     """ Button press action """
     print('button {} pressed'.format(button))
-    requests.post('http://localhost:5000/signal/help', data=button)
+    requests.post('http://localhost:5000/dash/signal/help', data=button)
 
 def main():
     global buttons
     buttons = load_buttons()
     print('amazon_dash started, loaded {} buttons'.format(len(buttons)))
-    sniff(prn=arp_handler, filter="arp", store=0) # sniff from scapy.all
+    sniff(prn=arp_handler, filter="arp", store=0)
 
 if __name__ == '__main__':
     main()

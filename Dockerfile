@@ -10,4 +10,4 @@ RUN pip install -r pip.requirements.txt \
 COPY src/*  /amazon_dash/
 
 WORKDIR "/amazon_dash"
-CMD ["python3", "amazon_dash.py"]
+CMD ["python3", "wifi-sniff.py"]
