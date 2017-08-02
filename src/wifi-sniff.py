@@ -4,10 +4,10 @@ Amazon Dash Button server
 Sniff for ARP traffic and detects amazon dash (button) press.
 Register events in class Action
 """
+from scapy.all import *
 import json
 import os.path
 import requests
-from scapy.all import *
 
 BUTTONS_FILE_NAME = 'buttons.json'
 
