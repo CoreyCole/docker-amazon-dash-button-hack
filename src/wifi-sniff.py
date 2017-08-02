@@ -7,7 +7,7 @@ Register events in class Action
 import json
 import os.path
 import requests
-from scapy.all import sniff
+from scapy.all import *
 
 BUTTONS_FILE_NAME = 'buttons.json'
 
@@ -29,7 +29,7 @@ def load_buttons():
 
 def arp_handler(pkt):
     """ Handles sniffed ARP requests """
-    if pkt.haslayer(ARP):
+    if pkt.haslayer(ARP):    # ARP from scapy.all
         if pkt[ARP].op == 1: # who-has request
             if pkt[ARP].hwsrc in buttons:
                 trigger(buttons[pkt[ARP].hwsrc])
@@ -45,7 +45,7 @@ def main():
     global buttons
     buttons = load_buttons()
     print('amazon_dash started, loaded {} buttons'.format(len(buttons)))
-    sniff(prn=arp_handler, filter="arp", store=0)
+    sniff(prn=arp_handler, filter="arp", store=0) # sniff from scapy.all
 
 if __name__ == '__main__':
     main()
