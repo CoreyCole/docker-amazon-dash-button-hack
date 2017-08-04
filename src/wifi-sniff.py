@@ -39,12 +39,12 @@ def arp_handler(pkt):
 def trigger(button):
     """ Button press action """
     print('button {} pressed'.format(button))
-    requests.post('http://127.0.0.1:5000/api/v1/dash/signal/help', data=button)
+    requests.post('localhost:5000/api/v1/dash/signal/help', data=button)
 
 def main():
     global buttons
     buttons = load_buttons()
-    print('version 2')
+    print('version 3')
     print('amazon_dash started, loaded {} buttons'.format(len(buttons)))
     sniff(prn=arp_handler, filter="arp", store=0) # sniff from scapy.all
 
