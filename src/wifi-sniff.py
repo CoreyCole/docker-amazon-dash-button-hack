@@ -49,7 +49,7 @@ def trigger(button, retry):
         print('request timed out {}'.format(button))
         trigger(button, true)
     except requests.exception.RequestException as e:
-        print e
+        print(e)
         sys.exit(1)
 
 def main():
