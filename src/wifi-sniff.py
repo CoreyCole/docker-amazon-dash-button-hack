@@ -36,15 +36,26 @@ def arp_handler(pkt):
             else:
                 print('ARP request from unknown MAC {}'.format(pkt[ARP].hwsrc))
 
-def trigger(button):
+def trigger(button, retry):
     """ Button press action """
-    print('button {} pressed'.format(button))
-    requests.post('http://localhost:5000/api/v1/dash/signal/help', data=button)
+    if not retry:
+        print('button {} pressed'.format(button))
+    else:
+        print('retrying request for button {}'.format(button))
+    
+    try:
+        r = requests.post('http://ec2-34-209-67-178.us-west-2.compute.amazonaws.com:5000/api/v1/dash/signal/help', data=button)
+    except requests.exception.Timeout:
+        print('request timed out {}'.format(button))
+        trigger(button, true)
+    except requests.exception.RequestException as e:
+        print e
+        sys.exit(1)
 
 def main():
     global buttons
     buttons = load_buttons()
-    print('version 4')
+    print('version 5')
     print('amazon_dash started, loaded {} buttons'.format(len(buttons)))
     sniff(prn=arp_handler, filter="arp", store=0) # sniff from scapy.all
 
